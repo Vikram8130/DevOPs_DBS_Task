@@ -16,5 +16,9 @@ virtualenv env          # create virtual environment with name ENV
 3. After that run below commands in the given same order on the machine where the cluster is deployed.
 
 chmod +x scripts/deploy.sh
+
+
 ./scripts/deploy.sh start  # To deploy
+
+
 ./scripts/deploy.sh stop   # To tear down
