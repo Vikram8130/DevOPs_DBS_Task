@@ -1,4 +1,4 @@
-Below are the steps that needs to be followed applying the changes in this repo to any non-production cluster
+Below are the steps that needs to be followed for applying the changes available in this repo to any non-production cluster
 
 1. Clone this GitHub repo into your machine using below command:
 git clone https://github.com/Vikram8130/DevOPs_DBS_Task.git
