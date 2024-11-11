@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -10,32 +11,50 @@ spec:
       app: grafana
   template:
     metadata:
+      name: grafana
       labels:
         app: grafana
     spec:
       containers:
       - name: grafana
-        image: grafana/grafana
-        imagePullPolicy: Never
-        resources:
-            limits:
-              memory: 200Mi
-              cpu: 250Mi
-            requests:
-              memory: 3000Mi
-              cpu: 500Mi
+        image: grafana/grafana:latest
         ports:
-        - containerPort: 3000
+        - name: grafana
+          containerPort: 3000
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+          requests: 
+            memory: 500M
+            cpu: "500m"
+        volumeMounts:
+          - mountPath: /var/lib/grafana
+            name: grafana-storage
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+            readOnly: false
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+        - name: grafana-datasources
+          configMap:
+              defaultMode: 420
+              name: grafana-datasources
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: grafana
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '3000'
 spec:
-  selector:
+  selector: 
     app: grafana
+  type: NodePort  
   ports:
-    - protocol: TCP
-      port: 3000
+    - port: 3000
       targetPort: 3000
-  type: NodePort
+      nodePort: 32000
