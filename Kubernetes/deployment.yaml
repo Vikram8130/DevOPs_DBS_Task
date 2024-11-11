@@ -1,0 +1,36 @@
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: status-checker
+
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: google-checker-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: google-checker
+  template:
+    metadata:
+      labels:
+        app: google-checker
+    spec:
+      containers:
+      - name: google-checker
+        image: google-checker:latest
+        imagePullPolicy: Never
+        resources:
+            limits:
+              memory: 100Mi
+              cpu: 150Mi
+            requests:
+              memory: 250Mi
+              cpu: 3000Mi
+        ports:
+        - containerPort: 5000
+
