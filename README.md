@@ -44,3 +44,7 @@ kubectl port-forward -n monitoring <grafana-pod-name> 8080:3000
 http://localhost:8080
 
 http://<your-node-ip>:32000
+
+
+# Metrics server can also be installed to collect CPU and memory usage data in a Kubernetes cluster
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
