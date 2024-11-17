@@ -24,3 +24,6 @@ EXPOSE 5000
 
 # Define the command to run the application
 CMD ["python", "app.py"]
+
+# To run a container locally on port 5000, use below command
+# docker run -p 5000:5000 google-checker:latest
